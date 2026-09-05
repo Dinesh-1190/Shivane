@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
+import { PERSON, WEB3FORMS_ACCESS_KEY } from '@/lib/content';
 import { EASE } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { MagneticButton } from './MagneticButton';
@@ -10,6 +11,8 @@ type Status = 'idle' | 'submitting' | 'sent' | 'error';
 
 type Errors = Partial<Record<'name' | 'email' | 'message', string>>;
 
+const WEB3FORMS_ENDPOINT = 'https://api.web3forms.com/submit';
+
 /**
  * Contact form.
  *
@@ -17,10 +20,10 @@ type Errors = Partial<Record<'name' | 'email' | 'message', string>>;
  * is client-side and announced through `aria-invalid` / `aria-describedby` so
  * it is available to screen readers, not just visible.
  *
- * NOTE FOR THE NEXT DEVELOPER: there is no mail transport wired up yet.
- * `submit()` below is the single integration point — drop in a POST to an API
- * route, Formspree, Resend, or whichever service the client chooses, and the
- * surrounding states (submitting / sent / error) already handle the UI.
+ * Submissions post directly to Web3Forms (see `WEB3FORMS_ACCESS_KEY` in
+ * lib/content.ts), which relays them to `PERSON.contactInbox` by email — the
+ * site has no server of its own to send mail from, on either GitHub Pages or
+ * the eventual Namecheap static host.
  */
 export function ContactForm() {
   const [values, setValues] = useState({ name: '', email: '', message: '' });
@@ -47,15 +50,24 @@ export function ContactForm() {
 
     setStatus('submitting');
     try {
-      // ── Integration point ──────────────────────────────────────────────
-      // Replace with the client's chosen transport, e.g.
-      //   await fetch('/api/contact', {
-      //     method: 'POST',
-      //     headers: { 'Content-Type': 'application/json' },
-      //     body: JSON.stringify(values),
-      //   });
-      // Until then the form validates and confirms without sending anything.
-      await new Promise((resolve) => setTimeout(resolve, 700));
+      const response = await fetch(WEB3FORMS_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: `New inquiry from ${PERSON.name} — shivaneaugustus.com`,
+          from_name: values.name,
+          name: values.name,
+          email: values.email,
+          message: values.message,
+        }),
+      });
+
+      const result = await response.json();
+      if (!response.ok || !result.success) {
+        throw new Error(result.message ?? 'Web3Forms request failed');
+      }
+
       setStatus('sent');
       setValues({ name: '', email: '', message: '' });
     } catch {

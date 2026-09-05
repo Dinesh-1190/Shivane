@@ -20,7 +20,27 @@ export const PERSON = {
   linkedin: 'https://www.linkedin.com/in/shivane-augustus-1590b31bb/',
   phone: '+1 (437) 259-4867',
   phoneHref: 'tel:+14372594867',
+  contactInbox: 'hello@shivaneaugustus.com',
 } as const;
+
+/**
+ * Access key for Web3Forms (web3forms.com), which delivers ContactForm
+ * submissions to `PERSON.contactInbox` by email.
+ *
+ * The site is a static export with no server of its own — no Next.js API
+ * route, no Node process — on either GitHub Pages or the eventual Namecheap
+ * static host, so "send an email on submit" has to happen via a third-party
+ * endpoint the browser can POST to directly. Web3Forms was chosen over
+ * alternatives (Formspree, etc.) because it needs no account or password:
+ * you submit the destination inbox once at web3forms.com, it emails back an
+ * access key, and that key is the only thing this file needs. The key is
+ * meant to be public — Web3Forms' spam filtering happens server-side on
+ * their end, not by keeping this secret — so shipping it in the client
+ * bundle is the intended usage, the same as a Formspree form ID.
+ *
+ * Tied to hello@shivaneaugustus.com via web3forms.com.
+ */
+export const WEB3FORMS_ACCESS_KEY = '2bbed3db-0d9d-43c9-ba43-5232b7efd4e2';
 
 export const NAV_ITEMS = [
   { label: 'About', href: '#about' },
