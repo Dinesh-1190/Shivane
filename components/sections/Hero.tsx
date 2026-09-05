@@ -7,6 +7,7 @@ import { useAnchorScroll } from '@/components/providers/SmoothScroll';
 import { MagneticButton } from '@/components/ui/MagneticButton';
 import { PERSON } from '@/lib/content';
 import { EASE } from '@/lib/motion';
+import { withBasePath } from '@/lib/site';
 import { useReducedMotion } from '@/lib/useDeviceTier';
 
 /**
@@ -68,7 +69,7 @@ export function Hero() {
       {/* ── Photograph ─────────────────────────────────────────────────── */}
       <motion.div className="absolute inset-0" style={still}>
         <Image
-          src="/media/hero-shivane.jpg"
+          src={withBasePath('/media/hero-shivane.jpg')}
           alt={`${PERSON.name} at the shoreline at sunrise`}
           fill
           priority

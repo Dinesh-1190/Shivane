@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter, Playfair_Display } from 'next/font/google';
 import { COMPANIES, PERSON } from '@/lib/content';
+import { absoluteUrl, SITE_URL } from '@/lib/site';
 import './globals.css';
 
 /**
@@ -27,12 +28,18 @@ const sans = Inter({
   display: 'swap',
 });
 
-const SITE_URL = 'https://shivaneaugustus.com';
 const DESCRIPTION =
   'Shivane Augustus is a Toronto based entrepreneur, director and angel investor with an active portfolio across media, hospitality, travel and marketing in Canada and Sri Lanka.';
 
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
+  // Every URL below is built with `absoluteUrl`/`SITE_URL` rather than left
+  // relative for Next to resolve against `metadataBase`: this site is
+  // published under a GitHub Pages sub-path (/Shivane), and a leading-slash
+  // relative URL resolved against `new URL(base)` replaces the base's own
+  // path — silently dropping the sub-path and pointing crawlers at the wrong
+  // place. `metadataBase` is still set as a fallback for anything this file
+  // doesn't cover explicitly.
+  metadataBase: new URL(`${SITE_URL}/`),
   // Exactly as specified in the client's SEO notes.
   title: 'Shivane Augustus | Entrepreneur, Director & Angel Investor — Toronto',
   description: DESCRIPTION,
@@ -47,7 +54,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: PERSON.name }],
   creator: PERSON.name,
-  alternates: { canonical: '/' },
+  alternates: { canonical: SITE_URL },
   openGraph: {
     type: 'profile',
     siteName: PERSON.name,
@@ -57,7 +64,7 @@ export const metadata: Metadata = {
     locale: 'en_CA',
     images: [
       {
-        url: '/media/hero-shivane.jpg',
+        url: absoluteUrl('/media/hero-shivane.jpg'),
         width: 1600,
         height: 773,
         alt: `${PERSON.name} — Entrepreneur, Director & Angel Investor`,
@@ -68,7 +75,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Shivane Augustus | Entrepreneur, Director & Angel Investor',
     description: DESCRIPTION,
-    images: ['/media/hero-shivane.jpg'],
+    images: [absoluteUrl('/media/hero-shivane.jpg')],
   },
   robots: {
     index: true,
@@ -94,7 +101,7 @@ const personSchema = {
   jobTitle: 'Entrepreneur, Director & Angel Investor',
   description: DESCRIPTION,
   url: SITE_URL,
-  image: `${SITE_URL}/media/hero-shivane.jpg`,
+  image: absoluteUrl('/media/hero-shivane.jpg'),
   telephone: PERSON.phone,
   address: {
     '@type': 'PostalAddress',

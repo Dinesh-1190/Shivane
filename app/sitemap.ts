@@ -1,6 +1,9 @@
 import type { MetadataRoute } from 'next';
+import { SITE_URL } from '@/lib/site';
 
-const SITE_URL = 'https://shivaneaugustus.com';
+// See app/robots.ts — reading SITE_URL makes this route look
+// environment-dependent, so `output: 'export'` needs this to prerender it.
+export const dynamic = 'force-static';
 
 /**
  * Single-page site, so the sitemap has one entry. When the Photography /

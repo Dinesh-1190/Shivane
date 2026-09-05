@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { withBasePath } from '@/lib/site';
 import { cn } from '@/lib/utils';
 
 export type MediaPlaceholderProps = {
@@ -54,7 +55,7 @@ export function MediaPlaceholder({
     >
       {src ? (
         <Image
-          src={src}
+          src={withBasePath(src)}
           alt={alt}
           fill
           sizes={sizes}
@@ -95,7 +96,7 @@ export function BrandMark({ name, src }: { name: string; src?: string }) {
     <div className="group flex h-12 min-w-[9.5rem] items-center justify-center px-6">
       {src ? (
         <Image
-          src={src}
+          src={withBasePath(src)}
           alt={`${name} logo`}
           width={140}
           height={40}
