@@ -23,7 +23,7 @@ export function Brands() {
     <section id="brands" className="relative border-y border-ink-line py-24 md:py-32">
       <div className="shell">
         <SectionHeader
-          index={5}
+          index={2}
           eyebrow={BRANDS.eyebrow}
           lines={[...BRANDS.headingLines]}
           align="center"
@@ -38,12 +38,6 @@ export function Brands() {
             <BrandMark key={name} name={name} />
           ))}
         </Marquee>
-      </Reveal>
-
-      <Reveal delay={0.25}>
-        <p className="shell mt-12 text-center font-sans text-[0.6rem] uppercase tracking-[0.22em] text-bone-faint">
-          {BRANDS.note}
-        </p>
       </Reveal>
     </section>
   );

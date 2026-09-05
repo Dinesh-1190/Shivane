@@ -4,6 +4,7 @@ import { Brands } from '@/components/sections/Brands';
 import { Companies } from '@/components/sections/Companies';
 import { Contact } from '@/components/sections/Contact';
 import { CreativeWork } from '@/components/sections/CreativeWork';
+import { EarlyLifeEducation } from '@/components/sections/EarlyLifeEducation';
 import { Hero } from '@/components/sections/Hero';
 import { Investing } from '@/components/sections/Investing';
 import { GlobeStageLoader } from '@/components/three/GlobeStageLoader';
@@ -21,12 +22,17 @@ export default function Page() {
 
       <Nav />
 
+      {/*
+        Section order: About, Brands Worked With, Company Portfolio,
+        Angel Investing, Early Life & Education, Creative Work, Contact.
+      */}
       <main id="main" className="relative z-10">
         <Hero />
         <About />
+        <Brands />
         <Companies />
         <Investing />
-        <Brands />
+        <EarlyLifeEducation />
         <CreativeWork />
         <Contact />
       </main>

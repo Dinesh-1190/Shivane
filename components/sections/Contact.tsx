@@ -8,10 +8,8 @@ import { CONTACT, PERSON } from '@/lib/content';
 /**
  * Closing section.
  *
- * The form sits left with the direct channels right, so a partner who would
- * rather call than fill in a form does not have to scroll past one to find the
- * other. The phone number is a `tel:` link at body size — present and
- * dignified, never headline-scale.
+ * The form sits left with the direct channels (LinkedIn, location) right, so
+ * a partner has both routes without scrolling past one to find the other.
  */
 export function Contact() {
   return (
@@ -39,16 +37,6 @@ export function Contact() {
           <div className="lg:col-span-5 lg:col-start-8">
             <Reveal delay={0.16}>
               <dl className="space-y-10">
-                <ContactRow label="Direct">
-                  <a
-                    href={PERSON.phoneHref}
-                    className="group inline-flex items-center gap-3 font-sans text-lg text-bone transition-colors duration-300 hover:text-brass"
-                  >
-                    <PhoneIcon />
-                    {PERSON.phone}
-                  </a>
-                </ContactRow>
-
                 <ContactRow label="LinkedIn">
                   <a
                     href={PERSON.linkedin}
@@ -69,9 +57,6 @@ export function Contact() {
 
                 <ContactRow label="Based in">
                   <p className="font-sans text-lg text-bone">{PERSON.location}</p>
-                  <p className="mt-1 font-sans text-sm text-bone-faint">
-                    Operating across Canada and Sri Lanka
-                  </p>
                 </ContactRow>
               </dl>
             </Reveal>
@@ -108,27 +93,8 @@ function Footer() {
   );
 }
 
-/* Inline icons — two glyphs do not justify an icon dependency, and inlining
-   keeps them themeable with `currentColor`. */
-
-function PhoneIcon() {
-  return (
-    <svg
-      aria-hidden
-      width="15"
-      height="15"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="text-brass/80"
-    >
-      <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z" />
-    </svg>
-  );
-}
+/* Inline icon — one glyph does not justify an icon dependency, and inlining
+   keeps it themeable with `currentColor`. */
 
 function LinkedInIcon() {
   return (

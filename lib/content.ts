@@ -71,8 +71,8 @@ export const EDUCATION = {
 } as const;
 
 export type Company = {
-  /** Two-letter monogram shown until a real logo asset is supplied. */
-  monogram: string;
+  /** Logo image, served from public/media/logos/. */
+  logo: string;
   name: string;
   role: string;
   location: string;
@@ -92,9 +92,9 @@ export type Company = {
 
 export const COMPANIES: readonly Company[] = [
   {
-    monogram: 'CT',
+    logo: '/media/logos/creative-touch-media.png',
     name: 'Creative Touch Media Inc.',
-    role: 'Director',
+    role: 'Founder',
     location: 'Toronto, Ontario, Canada',
     description:
       'A creative agency specializing in real estate media, business branding, web development, and social media marketing, built to turn a brand into a growth engine. Creative Touch Media works with realtors, businesses, and individuals to build a professional identity that performs.',
@@ -108,7 +108,7 @@ export const COMPANIES: readonly Company[] = [
     },
   },
   {
-    monogram: 'PG',
+    logo: '/media/logos/premium-global-expeditions.png',
     name: 'Premium Global Expeditions Inc.',
     role: 'Director',
     location: 'Canada',
@@ -119,7 +119,7 @@ export const COMPANIES: readonly Company[] = [
     address: { '@type': 'PostalAddress', addressCountry: 'CA' },
   },
   {
-    monogram: 'LV',
+    logo: '/media/logos/lake-villas-premium.png',
     name: 'Lake Villas Premium',
     role: 'Marketing Director',
     location: 'Kandy, Sri Lanka',
@@ -130,7 +130,7 @@ export const COMPANIES: readonly Company[] = [
     address: { '@type': 'PostalAddress', addressLocality: 'Kandy', addressCountry: 'LK' },
   },
   {
-    monogram: 'HG',
+    logo: '/media/logos/hershley-group.png',
     name: 'Hershley Group Pvt Ltd',
     role: 'Marketing Director',
     location: 'Sri Lanka',
@@ -191,7 +191,6 @@ export const BRANDS = {
     'Sports Check',
     'Gardner Galleries',
   ],
-  note: 'Additional brand partners to be added.',
 } as const;
 
 export const CREATIVE_WORK = {

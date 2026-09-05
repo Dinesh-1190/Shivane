@@ -1,10 +1,12 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { Spotlight } from '@/components/ui/Spotlight';
 import { COMPANIES, COMPANIES_SECTION, type Company } from '@/lib/content';
 import { EASE, VIEWPORT } from '@/lib/motion';
+import { withBasePath } from '@/lib/site';
 
 /**
  * The four ventures.
@@ -63,12 +65,20 @@ function CompanyCard({ company, index }: { company: Company; index: number }) {
             />
 
             <header className="flex items-start justify-between gap-6">
-              {/* Monogram stands in until a real logo asset is supplied. */}
+              {/* Sized larger than a typical icon badge: Lake Villas' mark is
+                  fine line-art with a lot of white space, and at a smaller
+                  size it reads as a pale, empty square rather than a logo. */}
               <span
                 aria-hidden
-                className="grid h-14 w-14 shrink-0 place-items-center border border-ink-line font-display text-lg tracking-[0.08em] text-brass/85 transition-colors duration-500 group-hover:border-brass/45"
+                className="relative grid h-20 w-20 shrink-0 place-items-center overflow-hidden border border-ink-line bg-bone/[0.04] transition-colors duration-500 group-hover:border-brass/45"
               >
-                {company.monogram}
+                <Image
+                  src={withBasePath(company.logo)}
+                  alt=""
+                  fill
+                  sizes="80px"
+                  className="object-contain p-2"
+                />
               </span>
               <span className="font-sans text-[0.6rem] tracking-[0.24em] text-bone-faint">
                 {String(index + 1).padStart(2, '0')}
