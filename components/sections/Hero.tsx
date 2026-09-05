@@ -11,6 +11,20 @@ import { withBasePath } from '@/lib/site';
 import { useReducedMotion } from '@/lib/useDeviceTier';
 
 /**
+ * A tiny (16×8) JPEG of the actual hero photo, inlined as a blur placeholder.
+ *
+ * On a slow connection `next/image` has nothing to paint until the full file
+ * arrives — with no placeholder that gap renders as flat black, because the
+ * grade layers below (all semi-transparent dark gradients) sit on top of
+ * *nothing* and composite straight onto the page's own near-black background.
+ * A blurred preview fills that gap with the photo's real tones immediately,
+ * and doubles as a fallback that stays on screen if the full image never
+ * loads at all.
+ */
+const HERO_BLUR_DATA_URL =
+  'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAIABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwB5vF8h/Lfc204U4wT2pyXEBt08wbZMZZQw4bvRRXLKKOtSZ//Z';
+
+/**
  * The landing frame.
  *
  * A single full-bleed photograph with the name set across it. The type uses
@@ -27,6 +41,16 @@ import { useReducedMotion } from '@/lib/useDeviceTier';
  *
  * Scroll behaviour: the photograph rises slightly slower than the page while
  * the name rises faster and fades, so the two separate as the visitor leaves.
+ *
+ * Below `md`, the name and the roles/tagline/CTA block render as one flex
+ * column in real document flow instead of desktop's two independently
+ * absolutely-positioned pieces (name vertically centred, copy pinned to the
+ * bottom). That split works on desktop's tall, wide frame, but on a phone
+ * viewport short enough — and plenty are — the vertically-centred name's
+ * lower edge and the bottom-pinned copy's upper edge land in the same space
+ * and print on top of each other. Two siblings in one flow container can't
+ * do that regardless of exact viewport height, which is what the mobile
+ * block below is for. Desktop's markup is untouched.
  */
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
@@ -65,6 +89,15 @@ export function Hero() {
       ref={ref}
       id="top"
       className="relative h-[100svh] min-h-[34rem] w-full overflow-hidden"
+      style={{
+        // A static warm-to-charcoal gradient sitting under the photo layer.
+        // Invisible once the photo is in — `object-cover` fully occludes it —
+        // but on a slow connection or an outright failed request it keeps the
+        // frame looking art-directed instead of a flat black rectangle while
+        // the blur placeholder (or nothing, in the worst case) is all that's
+        // painted above it.
+        background: 'linear-gradient(160deg, #3a2c1e 0%, #1c1712 45%, #0A0B0E 100%)',
+      }}
     >
       {/* ── Photograph ─────────────────────────────────────────────────── */}
       <motion.div className="absolute inset-0" style={still}>
@@ -75,6 +108,8 @@ export function Hero() {
           priority
           sizes="100vw"
           quality={90}
+          placeholder="blur"
+          blurDataURL={HERO_BLUR_DATA_URL}
           /* object-position keeps the figure centred and the horizon in the
              lower third as the frame narrows toward mobile. */
           className="object-cover object-[50%_42%]"
@@ -118,91 +153,139 @@ export function Hero() {
         }}
       />
 
-      {/* ── The name ───────────────────────────────────────────────────── */}
+      {/* ── Mobile (below md): one flow column, bottom-anchored ──────────
+          Name, roles, tagline and CTAs stack as real siblings with `gap`, so
+          there is no independent vertical-centring math that can push the
+          name down into the copy below it — the two blocks physically cannot
+          overlap regardless of the exact viewport height a given phone
+          reports. This is the only structural difference from desktop. */}
       <motion.div
-        className="absolute inset-0 flex items-center justify-center"
+        className="absolute inset-0 flex flex-col justify-end px-[3vw] pb-8 md:hidden"
+        style={parallax ? undefined : { opacity: contentOpacity }}
+      >
+        <h1 className="text-center">
+          <span className="sr-only">{PERSON.name}</span>
+          <span aria-hidden className="hero-name">
+            <NameWord word="Shivane" delay={0.15} />
+            <br />
+            <NameWord word="Augustus" delay={0.28} />
+          </span>
+        </h1>
+
+        {/* No tagline here (desktop keeps it): the roles line already carries
+            the essentials, and on the shortest phone viewports every extra
+            line is real risk of pushing the name itself off the top of the
+            frame — the one thing on this screen that must never happen. */}
+        <div className="mt-4 flex flex-col items-center gap-4 text-center">
+          <HeroRoles />
+          <HeroActions onAnchorClick={onAnchorClick} />
+        </div>
+      </motion.div>
+
+      {/* ── Desktop (md and up): name centred, copy pinned to the bottom ── */}
+      <motion.div
+        className="absolute inset-0 hidden items-center justify-center md:flex"
         style={parallax ? undefined : { y: nameY }}
       >
         <h1 className="w-full px-[3vw] text-center">
           <span className="sr-only">{PERSON.name}</span>
-
-          {/* Desktop: one line. Mobile: stacked, so the type stays large
-              rather than shrinking to fit a narrow frame. */}
           <span aria-hidden className="hero-name">
             <NameWord word="Shivane" delay={0.15} />
-            <br className="md:hidden" />
-            <span className="hidden md:inline">&nbsp;</span>
+            <span>&nbsp;</span>
             <NameWord word="Augustus" delay={0.28} />
           </span>
         </h1>
       </motion.div>
 
-      {/* ── Supporting copy ────────────────────────────────────────────── */}
       <motion.div
-        className="absolute inset-x-0 bottom-0 pb-14 sm:pb-16"
+        className="absolute inset-x-0 bottom-0 hidden pb-16 md:block"
         style={parallax ? undefined : { opacity: contentOpacity }}
       >
         <div className="shell flex flex-col items-center gap-7 text-center">
-          {/* Rendered as a wrapping list rather than one joined string: at
-              360px the three roles plus their tracking exceed the line box,
-              and a single <p> would either overflow the frame or break at an
-              arbitrary point mid-word. */}
-          <motion.ul
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: EASE.entrance, delay: 0.75 }}
-            className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 font-sans text-[0.6rem] uppercase tracking-[0.26em] text-bone/80 sm:text-[0.7rem] sm:tracking-[0.36em]"
-          >
-            {PERSON.roles.map((role, index) => (
-              <li key={role} className="flex items-center gap-3">
-                {index > 0 && (
-                  <span aria-hidden className="text-brass/60">
-                    ·
-                  </span>
-                )}
-                {role}
-              </li>
-            ))}
-          </motion.ul>
-
-          <motion.p
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: EASE.entrance, delay: 0.88 }}
-            className="max-w-md text-balance font-sans text-sm leading-relaxed text-bone/70"
-          >
-            {PERSON.tagline}
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: EASE.entrance, delay: 1 }}
-            className="flex flex-wrap items-center justify-center gap-4"
-          >
-            <MagneticButton
-              href="#companies"
-              onClick={(event) =>
-                onAnchorClick(event as React.MouseEvent<HTMLAnchorElement>, '#companies')
-              }
-            >
-              The companies
-            </MagneticButton>
-            <MagneticButton
-              href="#contact"
-              variant="ghost"
-              onClick={(event) =>
-                onAnchorClick(event as React.MouseEvent<HTMLAnchorElement>, '#contact')
-              }
-            >
-              Contact
-            </MagneticButton>
-          </motion.div>
+          <HeroRoles />
+          <HeroTagline />
+          <HeroActions onAnchorClick={onAnchorClick} />
         </div>
       </motion.div>
 
       <ScrollCue reducedMotion={reducedMotion} />
     </section>
+  );
+}
+
+/**
+ * Roles, tagline and CTAs — shared by both the mobile (in-flow) and desktop
+ * (bottom-pinned) hero layouts so the copy and its entrance animation are
+ * defined once. Rendered as a wrapping list rather than one joined string:
+ * at 360px the three roles plus their tracking exceed the line box, and a
+ * single <p> would either overflow the frame or break at an arbitrary point
+ * mid-word.
+ */
+function HeroRoles() {
+  return (
+    <motion.ul
+      initial={{ opacity: 0, y: 14 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.9, ease: EASE.entrance, delay: 0.75 }}
+      className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 font-sans text-[0.6rem] uppercase tracking-[0.26em] text-bone/80 sm:text-[0.7rem] sm:tracking-[0.36em]"
+    >
+      {PERSON.roles.map((role, index) => (
+        <li key={role} className="flex items-center gap-3">
+          {index > 0 && (
+            <span aria-hidden className="text-brass/60">
+              ·
+            </span>
+          )}
+          {role}
+        </li>
+      ))}
+    </motion.ul>
+  );
+}
+
+function HeroTagline() {
+  return (
+    <motion.p
+      initial={{ opacity: 0, y: 14 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.9, ease: EASE.entrance, delay: 0.88 }}
+      className="max-w-md text-balance font-sans text-sm leading-relaxed text-bone/70"
+    >
+      {PERSON.tagline}
+    </motion.p>
+  );
+}
+
+function HeroActions({
+  onAnchorClick,
+}: {
+  onAnchorClick: ReturnType<typeof useAnchorScroll>;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 14 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.9, ease: EASE.entrance, delay: 1 }}
+      className="flex flex-wrap items-center justify-center gap-4"
+    >
+      <MagneticButton
+        href="#companies"
+        onClick={(event) =>
+          onAnchorClick(event as React.MouseEvent<HTMLAnchorElement>, '#companies')
+        }
+      >
+        The companies
+      </MagneticButton>
+      <MagneticButton
+        href="#contact"
+        variant="ghost"
+        onClick={(event) =>
+          onAnchorClick(event as React.MouseEvent<HTMLAnchorElement>, '#contact')
+        }
+      >
+        Contact
+      </MagneticButton>
+    </motion.div>
   );
 }
 

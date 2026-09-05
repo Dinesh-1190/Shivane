@@ -99,6 +99,14 @@
 
      Sized in vw so it spans the frame at every width — stacked over two lines
      below `md`, one line above it.
+
+     Below `md` the fluid size is also capped by `svh`: the mobile hero packs
+     the name, roles and CTAs into one bottom-anchored column (see Hero.tsx),
+     so on a short-but-normal-width phone viewport a width-only clamp can size
+     the name larger than the available height allows, pushing it — the one
+     thing on this screen that must stay visible — off the top of the frame.
+     Tying the size to whichever of width or height is tighter keeps it inside
+     the viewport by construction instead of by tuning pixel gaps.
      -------------------------------------------------------------------- */
   .hero-name {
     display: block;
@@ -109,7 +117,7 @@
     letter-spacing: 0.01em;
     color: #fff;
     mix-blend-mode: overlay;
-    font-size: clamp(3.4rem, 16.5vw, 5rem);
+    font-size: clamp(2.5rem, min(16.5vw, 11svh), 5rem);
   }
 
   @media (min-width: 768px) {
