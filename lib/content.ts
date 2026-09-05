@@ -40,7 +40,8 @@ export const ABOUT = {
    */
   headingLines: ['A career built', 'across two', 'coastlines.'],
   body: [
-    'Shivane Augustus (Theverapperuma) is a Toronto based entrepreneur and director with an active portfolio across media, hospitality, travel and marketing. He currently serves as Director of Creative Touch Media Inc. and Premium Global Expeditions Inc. in Canada, and holds marketing leadership roles with Lake Villas Premium in Kandy, Sri Lanka, and Hershley Group Pvt Ltd.',
+    'Shivane Augustus (Theverapperuma) is a Toronto based entrepreneur and director with an active portfolio across media, hospitality, travel and marketing.',
+    'He currently serves as President of Creative Touch Media Inc. and is a Director of Premium Global Expeditions Inc. in Canada, and holds marketing leadership roles with Lake Villas Premium in Kandy, Sri Lanka, and Hershley Group Pvt Ltd.',
     'Alongside his operating roles, he is an active angel investor, backing early-stage businesses where his international network and marketing expertise can accelerate growth.',
     'Born and raised in Colombo, Sri Lanka, and now based in Toronto, Canada, Shivane brings a cross-market perspective shaped by experience building brands in both the Canadian and South Asian business landscapes.',
   ],
@@ -49,12 +50,12 @@ export const ABOUT = {
 export const EDUCATION = {
   eyebrow: 'Early Life & Education',
   headingLines: ['Three countries,', 'one perspective.'],
-  body: 'This international academic foundation — spanning Sri Lanka, Canada, and the UK — underpins the cross-border perspective he brings to every business he’s involved in today.',
+  // Ordered latest-first: University of London, then Humber, then Stafford.
   milestones: [
     {
-      institution: 'Stafford International School',
-      place: 'Colombo 7, Sri Lanka',
-      note: 'Educated in Colombo before relocating to Canada to continue his studies.',
+      institution: 'University of London',
+      place: 'United Kingdom',
+      note: 'Further study in the United Kingdom, completing an international academic foundation.',
     },
     {
       institution: 'Humber Polytechnic',
@@ -62,9 +63,9 @@ export const EDUCATION = {
       note: 'Continued his studies in Canada, where he is now based.',
     },
     {
-      institution: 'University of London',
-      place: 'United Kingdom',
-      note: 'Further study in the United Kingdom, completing an international academic foundation.',
+      institution: 'Stafford International School',
+      place: 'Colombo 7, Sri Lanka',
+      note: 'Educated in Colombo before relocating to Canada to continue his studies.',
     },
   ],
 } as const;
@@ -76,6 +77,8 @@ export type Company = {
   role: string;
   location: string;
   description: string;
+  /** External site the company card links out to. */
+  url: string;
   /** Short capability tags derived from the company description. */
   tags: readonly string[];
   /** Structured address, consumed by the schema.org Person `worksFor` entries. */
@@ -94,7 +97,8 @@ export const COMPANIES: readonly Company[] = [
     role: 'Director',
     location: 'Toronto, Ontario, Canada',
     description:
-      'A creative agency specializing in real estate media, business branding, web development, and social media marketing — built to turn a brand into a growth engine. Creative Touch Media works with realtors, businesses, and individuals to build a professional identity that performs.',
+      'A creative agency specializing in real estate media, business branding, web development, and social media marketing, built to turn a brand into a growth engine. Creative Touch Media works with realtors, businesses, and individuals to build a professional identity that performs.',
+    url: 'https://www.creativetouchmedia.ca/',
     tags: ['Real Estate Media', 'Branding', 'Web Development', 'Social Media'],
     address: {
       '@type': 'PostalAddress',
@@ -109,7 +113,8 @@ export const COMPANIES: readonly Company[] = [
     role: 'Director',
     location: 'Canada',
     description:
-      'A global travel company creating exceptional journeys — from bespoke holidays and international tours to flights, cruises, and premium accommodations. Premium Global Expeditions brings together global reach and trusted local expertise to make every journey seamless and memorable.',
+      'A global travel company creating exceptional journeys, from bespoke holidays and international tours to flights, cruises, and premium accommodations. Premium Global Expeditions brings together global reach and trusted local expertise to make every journey seamless and memorable.',
+    url: 'https://www.premiumglobalexp.ca/',
     tags: ['Bespoke Travel', 'International Tours', 'Cruises', 'Accommodation'],
     address: { '@type': 'PostalAddress', addressCountry: 'CA' },
   },
@@ -119,7 +124,8 @@ export const COMPANIES: readonly Company[] = [
     role: 'Marketing Director',
     location: 'Kandy, Sri Lanka',
     description:
-      'A property management company overseeing a collection of luxury villas — where luxury meets tranquility. A peaceful retreat from the everyday, framed by tranquil waters or mountainous greenery.',
+      'A property management company overseeing a collection of luxury villas, where luxury meets tranquility. A peaceful retreat from the everyday, framed by tranquil waters or mountainous greenery.',
+    url: 'https://lakevillaskandy.com/',
     tags: ['Luxury Villas', 'Property Management', 'Hospitality'],
     address: { '@type': 'PostalAddress', addressLocality: 'Kandy', addressCountry: 'LK' },
   },
@@ -130,13 +136,14 @@ export const COMPANIES: readonly Company[] = [
     location: 'Sri Lanka',
     description:
       'A parent company managing multiple business arms, including Hershley’s Cloud Kitchen, alongside operations in hospitality and property management, travel, and DMC (destination management) services.',
+    url: 'https://www.hershley.com/',
     tags: ['Cloud Kitchen', 'Hospitality', 'Property', 'DMC Services'],
     address: { '@type': 'PostalAddress', addressCountry: 'LK' },
   },
 ] as const;
 
 export const COMPANIES_SECTION = {
-  eyebrow: 'Companies',
+  eyebrow: 'Company Portfolio',
   headingLines: ['Four ventures.', 'Two markets.'],
 } as const;
 

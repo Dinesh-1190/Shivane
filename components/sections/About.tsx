@@ -1,11 +1,41 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Reveal, RevealGroup, useRevealChild } from '@/components/ui/Reveal';
+import { RevealGroup, useRevealChild } from '@/components/ui/Reveal';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { SkylineDissolve } from '@/components/ui/SkylineDissolve';
-import { ABOUT, EDUCATION } from '@/lib/content';
+import { ABOUT, COMPANIES, EDUCATION } from '@/lib/content';
 import { EASE, VIEWPORT } from '@/lib/motion';
+
+/**
+ * Company names get an exact-match lookup against `COMPANIES` so any prose
+ * paragraph mentioning "Creative Touch Media Inc." (etc.) automatically turns
+ * that mention into a link to the company's own site — no manual markup
+ * inside `lib/content.ts`, so the copy there stays plain, editable prose.
+ */
+const COMPANY_URL_BY_NAME = new Map(COMPANIES.map((company) => [company.name, company.url]));
+const COMPANY_NAME_PATTERN = new RegExp(
+  `(${COMPANIES.map((company) => company.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`,
+  'g',
+);
+
+function withCompanyLinks(text: string) {
+  return text.split(COMPANY_NAME_PATTERN).map((part, index) => {
+    const url = COMPANY_URL_BY_NAME.get(part);
+    if (!url) return part;
+    return (
+      <a
+        key={`${part}-${index}`}
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-brass underline decoration-brass/30 underline-offset-4 transition-colors duration-300 hover:decoration-brass"
+      >
+        {part}
+      </a>
+    );
+  });
+}
 
 /**
  * About + Early Life.
@@ -40,7 +70,7 @@ export function About() {
                     : 'font-sans text-base leading-[1.85] text-bone-muted'
                 }
               >
-                {paragraph}
+                {withCompanyLinks(paragraph)}
               </motion.p>
             ))}
           </RevealGroup>
@@ -61,11 +91,6 @@ export function About() {
               eyebrow={EDUCATION.eyebrow}
               lines={[...EDUCATION.headingLines]}
             />
-            <Reveal delay={0.1}>
-              <p className="mt-8 max-w-prose font-sans text-base leading-[1.85] text-bone-muted">
-                {EDUCATION.body}
-              </p>
-            </Reveal>
           </div>
 
           <div className="lg:col-span-6 lg:col-start-7">
