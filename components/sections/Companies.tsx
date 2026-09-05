@@ -65,19 +65,25 @@ function CompanyCard({ company, index }: { company: Company; index: number }) {
             />
 
             <header className="flex items-start justify-between gap-6">
-              {/* Sized larger than a typical icon badge: Lake Villas' mark is
-                  fine line-art with a lot of white space, and at a smaller
-                  size it reads as a pale, empty square rather than a logo. */}
+              {/* A single shared circular frame — same size, same
+                  border-radius clip — for all four cards. The source logos
+                  arrive at wildly inconsistent crops (some near-full circles,
+                  some square wordmarks with a lot of padding); rather than
+                  reprocessing each image's pixels to try to match them by eye
+                  — which risks shifting colors at the edges — the circle mask
+                  is applied here in CSS, so every badge is provably identical
+                  in size and shape regardless of what the source file looks
+                  like. Images render completely unmodified. */}
               <span
                 aria-hidden
-                className="relative grid h-20 w-20 shrink-0 place-items-center overflow-hidden border border-ink-line bg-bone/[0.04] transition-colors duration-500 group-hover:border-brass/45"
+                className="relative grid h-20 w-20 shrink-0 place-items-center overflow-hidden rounded-full border border-ink-line bg-bone/[0.04] transition-colors duration-500 group-hover:border-brass/45"
               >
                 <Image
                   src={withBasePath(company.logo)}
                   alt=""
                   fill
                   sizes="80px"
-                  className="object-contain p-2"
+                  className="object-contain"
                 />
               </span>
               <span className="font-sans text-[0.6rem] tracking-[0.24em] text-bone-faint">
