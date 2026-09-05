@@ -1,0 +1,175 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   "Two Coasts" — design tokens
+   Charcoal base, a single brass accent, steel-blue for depth. Declared as
+   space-separated RGB channels so Tailwind's <alpha-value> syntax works.
+   ========================================================================== */
+:root {
+  --ink: 10 11 14;            /* #0A0B0E — page base */
+  --ink-raised: 17 19 24;     /* #111318 — cards, elevated surfaces */
+  --ink-line: 32 35 42;       /* #20232A — hairlines, dividers */
+
+  --brass: 201 162 75;        /* #C9A24B — primary accent */
+  --brass-bright: 212 175 55; /* #D4AF37 — hover / emphasis */
+  --brass-deep: 138 108 44;   /* #8A6C2C — pressed / shadow */
+
+  --steel: 62 92 118;         /* #3E5C76 — secondary, depth */
+  --steel-light: 106 137 163; /* #6A89A3 */
+
+  --bone: 237 233 226;        /* #EDE9E2 — primary text */
+  --bone-muted: 162 160 155;  /* #A2A09B — secondary text */
+  --bone-faint: 108 108 108;  /* #6C6C6C — tertiary / captions */
+
+  --shell-x: clamp(1.25rem, 5vw, 5rem);
+
+  /* House easing curves, mirrored from tailwind.config.ts so plain CSS
+     transitions stay on-system. */
+  --ease-entrance: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-precise: cubic-bezier(0.65, 0, 0.35, 1);
+
+  color-scheme: dark;
+}
+
+@layer base {
+  * {
+    @apply border-ink-line;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Lenis drives scroll; native smooth-scroll would fight it. */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  body {
+    @apply bg-ink text-bone font-sans antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: rgb(var(--brass) / 0.28);
+    color: rgb(var(--bone));
+  }
+
+  /* Visible, on-system focus ring — required for keyboard nav against the
+     near-black background. */
+  :focus-visible {
+    outline: 1px solid rgb(var(--brass));
+    outline-offset: 3px;
+  }
+
+  h1, h2, h3 {
+    @apply font-display font-normal;
+  }
+}
+
+@layer components {
+  .shell {
+    width: 100%;
+    max-width: theme('maxWidth.shell');
+    margin-inline: auto;
+    padding-inline: var(--shell-x);
+  }
+
+  /* Small caps label used above every section heading. */
+  .eyebrow {
+    @apply font-sans text-eyebrow uppercase text-brass;
+    font-weight: 500;
+  }
+
+  /* --------------------------------------------------------------------
+     Hero name.
+
+     `mix-blend-mode: overlay` with white type means each letter takes its
+     value from the photograph beneath: it screens up over the bright sky and
+     multiplies down over the figure's dark shirt, so the name sits inside the
+     image rather than on top of it.
+
+     Sized in vw so it spans the frame at every width — stacked over two lines
+     below `md`, one line above it.
+     -------------------------------------------------------------------- */
+  .hero-name {
+    display: block;
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    line-height: 0.9;
+    letter-spacing: 0.01em;
+    color: #fff;
+    mix-blend-mode: overlay;
+    font-size: clamp(3.4rem, 16.5vw, 5rem);
+  }
+
+  @media (min-width: 768px) {
+    .hero-name {
+      /* 16 characters at this face's cap advance ≈ 92% of the viewport. */
+      font-size: clamp(3.5rem, 8.4vw, 11rem);
+      letter-spacing: 0.015em;
+    }
+  }
+
+  /* Browsers without blend-mode support fall back to plain light type, which
+     still reads against the graded photograph. */
+  @supports not (mix-blend-mode: overlay) {
+    .hero-name {
+      color: rgb(var(--bone) / 0.92);
+      mix-blend-mode: normal;
+    }
+  }
+
+  /* Hairline rules that read as drafting lines rather than borders. */
+  .rule {
+    @apply h-px w-full;
+    background: linear-gradient(
+      to right,
+      rgb(var(--ink-line)) 0%,
+      rgb(var(--ink-line)) 60%,
+      transparent 100%
+    );
+  }
+}
+
+@layer utilities {
+  /* Masks the bottom of a marquee/scroller so items fade rather than clip. */
+  .fade-x {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 8%,
+      black 92%,
+      transparent
+    );
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Reduced motion: the site keeps its composition and colour, but every
+   transform-based entrance collapses to an opacity fade and all looping
+   animation stops. This is a calmer design, not a disabled one.
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.12s !important;
+    scroll-behavior: auto !important;
+  }
+}

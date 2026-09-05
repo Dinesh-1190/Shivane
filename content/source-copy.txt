@@ -1,0 +1,84 @@
+Shivane Augustus
+
+SITE NAVIGATION
+About · Companies · Investing · Creative Work · Contact
+
+HOMEPAGE
+Shivane Augustus
+
+Entrepreneur | Director | Angel Investor
+
+Building brands, businesses and journeys across Canada and Sri Lanka.
+
+ABOUT
+Shivane Augustus (Theverapperuma) is a Toronto based entrepreneur and director with an active portfolio across media, hospitality, travel and marketing. He currently serves as Director of Creative Touch Media Inc. and Premium Global Expeditions Inc. in Canada, and holds marketing leadership roles with Lake Villas Premium in Kandy, Sri Lanka, and Hershley Group Pvt Ltd. Alongside his operating roles, he is an active angel investor, backing early-stage businesses where his international network and marketing expertise can accelerate growth.
+
+Born and raised in Colombo, Sri Lanka, and now based in Toronto, Canada,
+Shivane brings a cross-market perspective shaped by experience building brands in both the Canadian and South Asian business landscapes.
+
+EARLY LIFE / EDUCATION
+Shivane was educated at Stafford International School in Colombo 7, Sri Lanka, before relocating to Canada to continue his studies at Humber Polytechnic. He also studied at the University of London, in the United Kingdom. This international academic foundation spanning Sri Lanka, Canada, and the UK underpins the cross-border perspective he brings to every business he's involved in today.
+
+COMPANIES
+Creative Touch Media Inc. — Director
+Toronto, Ontario, Canada
+
+A creative agency specializing in real estate media, business branding, web development, and social media marketing  built to turn a brand into a growth engine. Creative Touch Media works with realtors, businesses, and individuals to build a professional identity that performs.
+Premium Global Expeditions Inc. — Director
+Canada
+
+A global travel company creating exceptional journeys from bespoke holidays and international tours to flights, cruises, and premium accommodations. Premium Global Expeditions brings together global reach and trusted local expertise to make every journey seamless and memorable.
+Lake Villas Premium — Marketing Director
+Kandy, Sri Lanka
+
+A property management company overseeing a collection of luxury villas. Each property offers an where luxury meets tranquility. A peaceful retreat from the everyday, framed by tranquil waters or mountainous greenery.
+Hershley Group Pvt Ltd — Marketing Director
+Sri Lanka
+
+A parent company managing multiple business arms, including Hershley's Cloud Kitchen, alongside operations in hospitality and property management, travel, and DMC (destination management) services.
+
+ANGEL INVESTING
+Beyond his operating roles, Shivane is an active angel investor. An important part of the value he brings as an investor beyond capital is his international network. Through his professional and business activities, he has built relationships with businesses, brands, and professionals across multiple markets.
+
+He is particularly interested in opportunities where these international connections, combined with his experience in marketing, travel, and business development, can help promising businesses expand their reach and enter new markets.
+
+Principal areas of expertise:
+
+- Travel, Tourism & Hospitality
+- International Business Development & Market Entry
+- Digital Marketing & Social Media Strategy
+- Branding & Brand Development
+- Media, Content & Communications
+- Franchise & Partnership Facilitation
+- Market Expansion & Strategic Partnerships
+- Supporting Early-Stage and Growing Businesses
+
+BRANDS WORKED WITH
+(Logo strip)
+
+Apple · Hilton · Royal LePage · RE-MAX · The Depanneur (Toronto) · FAB Restaurants · TBCL · Sports Check · Gardner Galleries · [+ more to be added]
+
+CREATIVE WORK
+(Secondary section — folded under the main professional identity, not the homepage focus)
+
+Alongside his business roles, Shivane brings hands-on creative execution to his ventures of photography, videography, cinematography, graphic design, and web development. This is the same skill set behind Creative Touch Media's client work, and it shows up in his own brand-building across every company he's part of.
+
+- Portraiture, events, real estate & product photography
+- Cinematography & drone production
+- Graphic & brand design
+- Web development
+
+[View selected creative work →] (links to Photography / Graphic Design / Web Development pages — kept largely as-is from current site, re-labeled as "Creative Work" rather than the site's main identity)
+
+CONTACT
+Let's connect for business inquiries, partnerships, investment opportunities, or creative projects.
+
+[Contact form fields: Name, Email, Message] [LinkedIn]
+SEO / TECHNICAL NOTES FOR DEVELOPER
+- Page <title> and meta descriptions should consistently use "Shivane Augustus" — do not include "Theverapperuma" in titles, headers, alt text, or meta tags. It appears once, in plain body text on the About page only, in the format "Shivane Augustus (Theverapperuma)."
+- Homepage title tag suggestion: Shivane Augustus | Entrepreneur, Director & Angel Investor — Toronto
+
+- About page title tag suggestion: About Shivane Augustus | Director, Creative Touch Media & More
+
+- Use structured data (schema.org Person) with name: "Shivane Augustus",
+jobTitle, worksFor entries for each company, and sameAs links to LinkedIn
