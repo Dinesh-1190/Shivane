@@ -274,7 +274,7 @@ function HeroActions({
           onAnchorClick(event as React.MouseEvent<HTMLAnchorElement>, '#companies')
         }
       >
-        The companies
+        Company Portfolio
       </MagneticButton>
       <MagneticButton
         href="#contact"
@@ -283,7 +283,7 @@ function HeroActions({
           onAnchorClick(event as React.MouseEvent<HTMLAnchorElement>, '#contact')
         }
       >
-        Contact
+        Let&apos;s connect
       </MagneticButton>
     </motion.div>
   );

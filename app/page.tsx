@@ -9,7 +9,6 @@ import { Investing } from '@/components/sections/Investing';
 import { GlobeStageLoader } from '@/components/three/GlobeStageLoader';
 import { Nav } from '@/components/ui/Nav';
 import { Preloader } from '@/components/ui/Preloader';
-import { ScrollProgress } from '@/components/ui/ScrollProgress';
 
 export default function Page() {
   return (
@@ -21,7 +20,6 @@ export default function Page() {
       <GlobeStageLoader />
 
       <Nav />
-      <ScrollProgress />
 
       <main id="main" className="relative z-10">
         <Hero />

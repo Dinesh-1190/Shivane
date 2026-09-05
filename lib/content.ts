@@ -14,8 +14,8 @@ export const PERSON = {
    * site — inside the first ABOUT paragraph below. Per the client's SEO notes
    * it must never enter titles, headings, alt text or meta tags.
    */
-  roles: ['Entrepreneur', 'Director', 'Angel Investor'] as const,
-  tagline: 'Building brands, businesses and journeys across Canada and Sri Lanka.',
+  roles: ['Entrepreneur', 'Founder', 'Angel Investor'] as const,
+  tagline: 'Building brands and businesses across Canada and Sri Lanka.',
   location: 'Toronto, Ontario, Canada',
   linkedin: 'https://www.linkedin.com/in/shivane-augustus-1590b31bb/',
   phone: '+1 (437) 259-4867',
