@@ -188,7 +188,7 @@ export const BRANDS = {
     'The Depanneur',
     'FAB Restaurants',
     'TBCL',
-    'Sports Check',
+    'Sportchek',
     'Gardner Galleries',
   ],
 } as const;
